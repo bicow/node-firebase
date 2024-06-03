@@ -97,6 +97,17 @@ app.post("/cadastrar", function(req, res){
 })
 
 app.post("/atualizar", function(req, res){
+    var result = bd
+    .collection("agendamento")
+    .doc(req.body.id)
+    .update({
+        nome: req.body.nome,
+        telefone: req.body.telefone,
+    })
+    .then(function() {
+        console.log("Updated document");
+        res.redirect("/consultar");
+    })
 })
 
 app.listen(8081, function(){
