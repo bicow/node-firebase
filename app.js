@@ -31,40 +31,28 @@ app.get("/", function(req, res){
 })
 
 //READ
-app.get("/consulta", function(req, res){
-    db.collection('agendamentos').get()
-        .then((snapshot) => {
-            const agendamentos = [];
-            snapshot.forEach((doc) => {
-                agendamentos.push({
-                    id: doc.id,
-                    data: doc.data()
-                });
-            });
-            res.render("consultar", { agendamentos: agendamentos });
-        })
-        .catch((error) => {
-            console.log("Erro ao recuperar dados:", error);
-            res.status(500).send("Erro ao recuperar dados");
+app.get("/consulta", async function(req, res){
+    const dataSnapshot = await db.collection('agendamentos').get();
+    const data = [];
+    dataSnapshot.forEach((doc)=>{
+        data.push({
+            id: doc.id,
+            nome: doc.get('nome'),
+            telefone: doc.get('telefone'),
         });
+    });
+    res.render("consultar", { agendamentos: agendamentos });
 });
 
 //UPDATE
-app.get("/editar/:id", function(req, res){
-    const agendamentoId = req.params.id;
-
-    db.collection('agendamentos').doc(agendamentoId).get()
-        .then((doc) => {
-            if (!doc.exists) {
-                res.status(404).send("Agendamento não encontrado");
-            } else {
-                res.render("editar", { agendamentos: { id: doc.id, data: doc.data() } });
-            }
-        })
-        .catch((error) => {
-            console.log("Erro ao recuperar agendamento:", error);
-            res.status(500).send("Erro ao recuperar agendamento");
-        });
+app.get("/editar/:id", async function(req, res){
+    const dataSnapshot = await db.collection('agendamentos').doc(req.params.id).get();
+    const data = {
+        id: dataSnapshot.id,
+        nome: dataSnapshot.get('nome'),
+        telefone:dataSnapshot.get('telefone'),
+    };
+    res.render("editar", {data});
 });
 
 //DELETE

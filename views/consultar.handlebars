@@ -44,11 +44,11 @@
                 <tbody>
                     {{#each agendamentos}}
                     <tr>
-                        <td>{{this.data.nome}}</td>
-                        <td>{{this.data.telefone}}</td>
-                        <td>{{this.data.origem}}</td>
-                        <td>{{this.data.data_contato}}</td>
-                        <td>{{this.data.observacao}}</td>
+                        <td>{{this.nome}}</td>
+                        <td>{{this.telefone}}</td>
+                        <td>{{this.origem}}</td>
+                        <td>{{this.data_contato}}</td>
+                        <td>{{this.observacao}}</td>
                         <td>
                             <button type="button" class="btn text-light" style="background-color:dodgerblue;"><a href="/editar/{{this.id}}" style="color:inherit">Editar</a></button>
                             <button type="button" class="btn text-light" style="background-color: darkred;"><a href="/excluir/{{this.id}}"
